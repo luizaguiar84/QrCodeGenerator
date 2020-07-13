@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Http;
 
 namespace QrCodeGenerator.Controllers
@@ -19,11 +14,12 @@ namespace QrCodeGenerator.Controllers
 		public int Altura { get; private set; }
 
 		[HttpGet]
-		public HttpResponseMessage Get(string text = "www.google.com", int largura = 150, int altura = 150)
+		public HttpResponseMessage Get(string text = "www.google.com", int largura = 25, int altura = 25)
 		{
-			var qrCode = GerarQRCode(largura, altura, text);
-			HttpResponseMessage response = CriarRespostaHttpImagem(qrCode, ImageFormat.Png);
+			var qrCode = GerarQRCodeDataMatrix(largura, altura, text);
+			HttpResponseMessage response = CriarRespostaHttpImagem(qrCode, ImageFormat.Bmp);
 			return response;
+
 		}
 
 		private HttpResponseMessage CriarRespostaHttpImagem(Bitmap qrCode, ImageFormat formato)
@@ -57,6 +53,29 @@ namespace QrCodeGenerator.Controllers
 				return resultado;
 			}
 			catch(Exception ex)
+			{
+				throw new Exception("Erro na geração do QrCode - " + ex.Message);
+			}
+		}
+
+		private Bitmap GerarQRCodeDataMatrix(int width, int height, string text)
+		{
+			try
+			{
+				var bw = new ZXing.BarcodeWriter();
+				var encOptions = new ZXing.Common.EncodingOptions()
+				{
+					Width = width,
+					Height = height,
+					Margin = 0
+				};
+				bw.Options = encOptions;
+				bw.Format = ZXing.BarcodeFormat.DATA_MATRIX;
+				
+				var resultado = new Bitmap(bw.Write(text));
+				return resultado;
+			}
+			catch (Exception ex)
 			{
 				throw new Exception("Erro na geração do QrCode - " + ex.Message);
 			}
