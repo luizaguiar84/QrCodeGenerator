@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace QrCodeGenerator_exe
 {
@@ -8,13 +9,24 @@ namespace QrCodeGenerator_exe
 	{
 		static void Main(string[] args)
 		{
-			var text = args[0];
-			var path = args[1];
-			text = text.Replace('#', ' ');
-			var qrCode = GerarQRCodeDataMatrix(text);
-			//qrCode.Save(path, ImageFormat.Bmp);
-			var ret = ConvertTo24bpp(qrCode);
-			ret.Save(path, ImageFormat.Bmp);
+			try
+			{
+				var text = args[0];
+				var path = args[1];
+
+				var dir = Path.GetDirectoryName(path);
+				if (!Directory.Exists(dir))
+					Directory.CreateDirectory(dir);
+
+				text = text.Replace('#', ' ');
+				var qrCode = GerarQRCodeDataMatrix(text);
+				ConvertTo24bpp(qrCode)
+					.Save(path, ImageFormat.Bmp);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Erro na criação do QrCode - {ex.Message}");
+			}
 		}
 
 		private static Bitmap GerarQRCodeDataMatrix(string text)

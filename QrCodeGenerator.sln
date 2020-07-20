@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeGenerator", "QrCodeGenerator\QrCodeGenerator.csproj", "{DC7AE083-7A41-4401-A393-03709600AB22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeGenerator_exe", "QrCodeGenerator_exe\QrCodeGenerator_exe.csproj", "{06E145CE-5353-411D-84AF-B8622CA87A88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdpuQrCodeGenerator", "QrCodeGenerator_exe\IdpuQrCodeGenerator.csproj", "{06E145CE-5353-411D-84AF-B8622CA87A88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
